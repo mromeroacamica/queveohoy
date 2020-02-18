@@ -16,12 +16,10 @@ function buscarTodasPeliculas(req, res) {
     console.log('aaaaaaaaaaaaaaaaaaaaaaaa', req.query)
     let query = req.query;
     let sql;
-    // if(req.query){
-    //     let sql= 'select * from pelicula where anio = '+ query.anio + 'and genero = '+query.genero+ 'and titulo like %'+query.titulo+'%';
-    // }
-    console.log(query.genero)
-    console.log(query.anio)
-    console.log(query.titulo)
+    
+    // console.log(query.genero)
+    // console.log(query.anio)
+    // console.log(query.titulo)
     if (query.genero && query.anio && query.titulo) {
 
         sql = 'select * from pelicula where genero_id = "' + query.genero + '" and anio ="' + query.anio + '" and titulo like "%' + query.titulo + '%"';
