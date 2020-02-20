@@ -18,6 +18,8 @@ app.get('/peliculas', (req, res) => controlador.buscarTodasPeliculas(req, res));
 
 app.get('/generos', (req, res) => controlador.buscarTodosGeneros(req, res));
 
+app.get('/peliculas/:id', (req, res) => controlador.informacionPelicula(req, res));
+
 //seteamos el puerto en el cual va a escuchar los pedidos la aplicación
 var puerto = '8080';
 

@@ -13,7 +13,7 @@ con.connect((err) => {
 });
 
 function buscarTodasPeliculas(req, res) {
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaa', req.query)
+    // console.log('aaaaaaaaaaaaaaaaaaaaaaaa', req.query)
     let query = req.query;
     let sql;
     let select = 'select * ';
@@ -76,7 +76,7 @@ function buscarTodasPeliculas(req, res) {
     let cantidad = query.cantidad;
     let limiteInferior = (query.pagina - 1) * 52;
     let limite = ' limit ' + limiteInferior + ',' + 52;
-// console.log(limite)
+    // console.log(limite)
 
     let sql3 = sql + sql2 + limite;
     let sql4 = 'select count(id) AS count ' + busqueda
@@ -94,7 +94,7 @@ function buscarTodasPeliculas(req, res) {
         cantidadPeliculasTotal = response[0];
         new Promise((resolve, reject) => {
             con.query(sql3, function (err, results, fields) {
-                console.log('bbbbbbbbbbbbbbbbbbbb', sql3)
+                // console.log('bbbbbbbbbbbbbbbbbbbb', sql3)
                 if (err) reject(err);
                 resolve(results)
             })
@@ -131,11 +131,49 @@ function buscarTodosGeneros(req, res) {
     })
 };
 
+function informacionPelicula(req, res) {
+    let idPelicula = req.params.id;
+
+    new Promise((resolve, reject) => {
+
+        let sql = 'select * from pelicula where id = ' + idPelicula;
+        con.query(sql, function (err, results, fields) {
+            if (err) reject(err);
+            resolve(results)
+
+        })
+
+    }).then(response => {
+
+        let peliculaBuscada = {
+            pelicula: response[0],
+            actores: 0
+        };
+        new Promise((resolve, reject) => {
+            let sql2 = 'select actor_pelicula.actor_id, actor_pelicula.pelicula_id, actor.nombre from actor_pelicula, actor where actor_pelicula.actor_id = actor.id AND actor_pelicula.pelicula_id = ' + idPelicula;
+            con.query(sql2, function (err, results, fields) {
+                if (err) reject(err);
+                resolve(results)
+            })
+
+        }).then(response => {
+            console.log(response)
+            peliculaBuscada.actores = response;
+            console.log('ggggggggggggggg', peliculaBuscada.actores)
+
+            res.send(peliculaBuscada);
+        })
+
+        // console.log('aaaaaaaaaaaaaa',response)
+
+    })
+};
 
 
 
 module.exports = {
     hola,
     buscarTodasPeliculas,
-    buscarTodosGeneros
+    buscarTodosGeneros,
+    informacionPelicula
 }; 
