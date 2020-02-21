@@ -122,6 +122,7 @@ function ControladorRecomendaciones() {
         //se realiza el pedido de recomendacion al backend
         $.getJSON(servidor + ruta + query,
             function(data) {
+                // console.log(data)
                 //la respuesta del backend va a ser un array del peliculas. Antes de guardar ese array mezclamos su contenido
                 //para que no siempre se muestren las peliculas en el mismo
                 var peliculas_desordenadas = self.desordenarArray(data.peliculas);

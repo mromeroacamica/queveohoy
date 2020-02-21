@@ -157,14 +157,33 @@ function informacionPelicula(req, res) {
             })
 
         }).then(response => {
-            console.log(response)
+            // console.log(response)
             peliculaBuscada.actores = response;
-            console.log('ggggggggggggggg', peliculaBuscada.actores)
+            // console.log('ggggggggggggggg', peliculaBuscada.actores)
 
             res.send(peliculaBuscada);
         })
 
         // console.log('aaaaaaaaaaaaaa',response)
+
+    })
+};
+
+function recomendarPelicula(req, res){
+    
+    let sql = 'select * from pelicula';
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaa',req.query)
+    con.query(sql, function (err, results, fields) {
+        if (err) {
+            console.log('hubo un error');
+            return res.status(404).send('hubo error');
+        }
+        let response = {
+            peliculas: results
+        }
+    //     // console.log(response)
+        res.send(response)
+        // res.send(JSON.stringify(response));
 
     })
 };
@@ -175,5 +194,6 @@ module.exports = {
     hola,
     buscarTodasPeliculas,
     buscarTodosGeneros,
-    informacionPelicula
+    informacionPelicula,
+    recomendarPelicula
 }; 
